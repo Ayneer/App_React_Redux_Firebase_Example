@@ -7,8 +7,7 @@ export class NuevoProyecto extends Component {
     state = {
         nombreProyecto: "",
         descripcionProyecto: "",
-        usuario: "",
-        id: 0
+        correoCliente: ""
     }
 
     onSubmit = (evento) =>{
@@ -19,11 +18,11 @@ export class NuevoProyecto extends Component {
 
         const newProyecto = {
             ...this.state,
-            id: Math.random(),
-            usuario
+            correoCliente: usuario
         }
 
         nuevoProyecto(newProyecto);
+        console.log(this.props);
     }
 
     onChange = (evento) =>{

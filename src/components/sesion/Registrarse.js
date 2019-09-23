@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {nuevoCliente} from '../Redux/Acciones/clienteAcciones';
 
 export class Registrarse extends Component {
 
@@ -10,7 +12,8 @@ export class Registrarse extends Component {
 
     onSubmit = (event) =>{
         event.preventDefault();
-        console.log(this.state);
+        //console.log(this.state);
+        this.props.nuevoCliente(this.state);
     }
 
     onChange = (evento) => {
@@ -54,4 +57,10 @@ export class Registrarse extends Component {
     }
 }
 
-export default Registrarse
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        nuevoCliente: (cliente) => dispatch(nuevoCliente(cliente))
+    }
+} 
+
+export default connect(null, mapDispatchToProps)(Registrarse);

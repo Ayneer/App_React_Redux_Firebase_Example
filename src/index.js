@@ -9,13 +9,24 @@ import * as serviceWorker from './serviceWorker';
 
 //Redux
 //applyMiddleware para trabajar de acciones de forma asincrona
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+
 //thunk para trabajar de acciones de forma asincrona
 import thunk from 'redux-thunk';
+
+import { getFirestore, reduxFirestore } from 'redux-firestore';
+import { getFirebase, reactReduxFirebase } from 'react-redux-firebase';
+import configFireBase from '../src/configuracion/configFireBase';
 import rootReducer from './components/Redux/reducers/rootReducer';
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer,
+    compose(
+        applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
+        reduxFirestore(configFireBase),
+        reactReduxFirebase(configFireBase)
+    )
+);
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

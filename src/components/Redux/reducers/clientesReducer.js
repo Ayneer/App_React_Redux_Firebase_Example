@@ -1,11 +1,24 @@
 const iniState = {
     listaClientes: [
-        {id: 1, correo: "ayneer12@gmail.com", nombre: "Ayneer Luis Gonzalez Geles"},
-        {id: 2, correo: "luis@gmail.com", nombre: "Luis Perez Castro"}
+        { correo: "ayneer12@gmail.com", nombre: "Ayneer Luis Gonzalez Geles" },
+        { correo: "luis@gmail.com", nombre: "Luis Perez Castro" }
     ]
 }
 
 const clientesReducer = (state = iniState, action) => {
+    switch (action.type) {
+        
+        case 'NUEVO_CLIENTE':
+            console.log(action.cliente);
+            break;
+
+        case 'ELIMINAR_CLIENTE':
+            console.log(action.correo);
+            break;
+
+        default:
+            break;
+    }
     return state;
 }
 

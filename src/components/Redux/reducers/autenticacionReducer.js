@@ -1,5 +1,5 @@
 const iniState = {
-    correo: "",
+    correo: "aymeer12@gmail.com",
     contraseña: ""
 }
 

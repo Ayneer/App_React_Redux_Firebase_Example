@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ClienteVista from './ClienteVista';
 import { connect } from 'react-redux';
+import {eliminarCliente} from '../Redux/Acciones/clienteAcciones';
 
 class ListaClientes extends Component {
     render() {
@@ -8,9 +9,9 @@ class ListaClientes extends Component {
         const { clientes } = this.props;
         if (clientes.length > 0) {
             return (
-                clientes.map(cliente =>
-                    <div key={cliente.id}>
-                        <ClienteVista cliente={cliente} />
+                clientes.map((cliente, index) =>
+                    <div key={index}>
+                        <ClienteVista cliente={cliente} index={index} eliminarCliente={this.props.eliminarCliente} />
                     </div>
                 )
 
@@ -30,4 +31,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(ListaClientes);
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        eliminarCliente: (correo) => dispatch(eliminarCliente(correo))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListaClientes);
