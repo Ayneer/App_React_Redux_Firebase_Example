@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import EnlacesLogin from './EnlacesLogin';
 import EnlacesLogout from './EnlacesLogout';
+import EnlacesLoginAdministrador from './EnlacesLoginAdministrador';
 
 function Navbar() {
   return (
@@ -15,6 +16,7 @@ function Navbar() {
 
       <div className="collapse navbar-collapse" id="navbarNav">
         <EnlacesLogin />
+        <EnlacesLoginAdministrador />
         <EnlacesLogout />
       </div>
     </nav>
