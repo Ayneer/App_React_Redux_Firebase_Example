@@ -5,10 +5,10 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 
 class ListaProyectos extends Component {
-    
+
     render() {
-        console.log(this.props);
         const { proyectos } = this.props;
+        console.log("Render ListaProyectos");
         return (
             proyectos.map(proyecto =>
                 <div key={proyecto.id}>
@@ -17,10 +17,10 @@ class ListaProyectos extends Component {
             )
         )
     }
-
 }
 
 const mapStateToProps = (state) => {
+    console.log(state.firestore.ordered.proyectos);
     return {
         proyectos: state.proyectos.listaProyectos
     }
@@ -28,5 +28,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
     connect(mapStateToProps),
-    firestoreConnect([{collection: 'proyectos'}])
+    firestoreConnect([{ collection: 'proyectos' }])
 )(ListaProyectos);

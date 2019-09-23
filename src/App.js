@@ -12,8 +12,9 @@ import ListaProyectos from './components/administrador/ListaProyectos';
 
 import './App.css'
 
-export default class App extends Component {
+class App extends Component {
   render() {
+    console.log("render app");
     return (
       <BrowserRouter>
         <div className="App">
@@ -34,3 +35,5 @@ export default class App extends Component {
     )
   }
 }
+
+export default App;
