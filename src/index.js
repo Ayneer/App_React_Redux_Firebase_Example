@@ -19,23 +19,22 @@ import { getFirestore, reduxFirestore, createFirestoreInstance } from 'redux-fir
 import { getFirebase, ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import configFireBase from '../src/configuracion/configFireBase';
 import rootReducer from './components/Redux/reducers/rootReducer';
-import { authIsReady } from 'react-redux-firebase'
 
 const store = createStore(rootReducer, compose(
     applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
     reduxFirestore(configFireBase, { attachAuthIsReady: true })
 ));
 
-const rrfProps = { firebase: configFireBase, config: configFireBase, dispatch: store.dispatch, createFirestoreInstance }
+const reduxFirebaseConfig = {
+    useFirestoreForProfile: true,
+    userProfile: 'clientes',
+};
 
-authIsReady(store).then(() => {
-    console.log('auth is ready')
-})
+const rrfProps = { firebase: configFireBase, config: reduxFirebaseConfig, dispatch: store.dispatch, createFirestoreInstance}
 
 ReactDOM.render(<Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
-        <App />
+        <App/>
     </ReactReduxFirebaseProvider>
 </Provider>, document.getElementById('root'));
-
 serviceWorker.unregister();

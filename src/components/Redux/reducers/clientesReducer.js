@@ -1,4 +1,5 @@
 const iniState = {
+    errorNuevoCliente: null,
     listaClientes: [
         { correo: "ayneer12@gmail.com", nombre: "Ayneer Luis Gonzalez Geles" },
         { correo: "luis@gmail.com", nombre: "Luis Perez Castro" }
@@ -7,19 +8,25 @@ const iniState = {
 
 const clientesReducer = (state = iniState, action) => {
     switch (action.type) {
-        
+
         case 'NUEVO_CLIENTE':
-            console.log(action.cliente);
-            break;
+            return {
+                ...state,
+                errorNuevoCliente: false
+            }
+        case 'NUEVO_CLIENTE_ERROR':
+            return {
+                ...state,
+                errorNuevoCliente: true
+            }
 
         case 'ELIMINAR_CLIENTE':
             console.log(action.correo);
-            break;
+            return state;
 
         default:
-            break;
+            return state;
     }
-    return state;
 }
 
 export default clientesReducer;

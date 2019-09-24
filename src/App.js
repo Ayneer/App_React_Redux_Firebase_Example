@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { isLoaded, isEmpty } from 'react-redux-firebase';
 
 import Navbar from './components/navbar/Navbar';
 import IniciarSesion from './components/sesion/IniciarSesion';
@@ -15,31 +16,34 @@ import Proyecto from './components/administrador/Proyecto';
 import './App.css'
 
 class App extends Component {
+
   render() {
-    console.log("render app");
-    console.log(this.props.uid);
+    console.log("render App")
+    if (!isLoaded(this.props.auth)) {
+      return <span>Cargando pagina...</span>
+    }
+
     return (
       <BrowserRouter>
         <div className="App">
-
           <Navbar />
-
-          {!this.props.uid ?
+          {isEmpty(this.props.auth) ?
             <Switch>
               <Route exact path="/" component={IniciarSesion} />
               <Route path="/registrarme" component={Registrarse} />
+              <Route path="/" render={() => <Redirect to="/" />} />
             </Switch>
             :
             <Switch>
-              <Route path="/myPerfil" component={MyPerfil} />
-              <Route path="/" component={MyPerfil} />
-              <Route path="/nuevoProyecto" component={NuevoProyecto} />
-              <Route path="/clientes" component={ListaClientes} />
-              <Route path="/proyectos" component={ListaProyectos} />
-              <Route path="/proyecto/:id" component={Proyecto} />
+              <Route exact path="/" component={MyPerfil} />
+              <Route exact path="/myPerfil" component={MyPerfil} />
+              <Route exact path="/nuevoProyecto" component={NuevoProyecto} />
+              <Route exact path="/clientes" component={ListaClientes} />
+              <Route exact path="/proyectos" component={ListaProyectos} />
+              <Route exact path="/proyecto/:id" component={Proyecto} />
+              <Route path="/" render={() => <Redirect to="/" />} />
             </Switch>
           }
-
         </div>
       </BrowserRouter>
     )
@@ -47,9 +51,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
-    uid: state.firebase.auth.uid
+    auth: state.firebase.auth
   }
 }
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { nuevoProyecto } from '../Redux/Acciones/proyectoAcciones';
+import { compose } from 'redux';
+import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 
 export class NuevoProyecto extends Component {
 
@@ -14,11 +16,13 @@ export class NuevoProyecto extends Component {
 
         evento.preventDefault();
 
-        const { nuevoProyecto, usuario } = this.props;
+        const { nuevoProyecto, clientes, id } = this.props;
+
+        const correoCliente = clientes[id].correo;
 
         const newProyecto = {
             ...this.state,
-            correoCliente: usuario
+            correoCliente
         }
 
         nuevoProyecto(newProyecto);
@@ -33,11 +37,16 @@ export class NuevoProyecto extends Component {
     }
 
     render() {
-        const {error} = this.props;
-        console.log(error);
+        const { error, clientes, id } = this.props;
+        if (!isLoaded(clientes)) {
+            return <span>Cargando...</span>
+        }
+        if(!isLoaded(id)){
+            return <span>Cargando...</span>
+        }
         return (
             <div className="card container">
-                {(error !== undefined && error !== false) ? <div>Error al crear nuevo Proyecto</div> : <div>Nuevo Proyecto guardado con exito!</div>}
+                {error === null ? null : error ? <div>Error al crear nuevo Proyecto</div> : <div>Nuevo Proyecto guardado con exito!</div>}
                 <div className="card-body">
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
@@ -63,9 +72,11 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     console.log("mapStateToProps Nuevo proyecto");
     return {
-        usuario: state.autenticacion.correo,
-        error: state.proyectos.error
+        error: state.proyectos.error,
+        auth: state.firebase.auth,
+        clientes: state.firestore.data.clientes,
+        id: state.firebase.auth.uid
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NuevoProyecto);
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{ collection: 'clientes' }]))(NuevoProyecto);

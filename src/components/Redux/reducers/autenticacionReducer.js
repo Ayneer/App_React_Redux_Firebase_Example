@@ -9,6 +9,7 @@ const autenticacionReducer = (state = iniState, action) => {
     switch (action.type) {
         case 'INICIAR_SESION':
             console.log("sesion iniciada correctamente");
+            console.log(action.credenciales);
             return {
                 ...state,
                 errorSesion: null

@@ -17,7 +17,10 @@ const proyectosReducer = (state = iniState, action) => {
             }
 
         case 'NUEVO_PROYECTO_ERROR':
-            return state;
+            return {
+                ...state,
+                error: true
+            }
 
         default:
             return state;

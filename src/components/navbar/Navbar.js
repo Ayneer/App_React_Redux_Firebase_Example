@@ -4,38 +4,40 @@ import EnlacesLogin from './EnlacesLogin';
 import EnlacesLogout from './EnlacesLogout';
 import EnlacesLoginAdministrador from './EnlacesLoginAdministrador';
 import { connect } from 'react-redux';
+import { isLoaded, isEmpty } from 'react-redux-firebase';
 
 function Navbar(props) {
-  console.log("navbar");
-  console.log(props.uid)
+
+  if (!isLoaded(props.auth)) {
+    return <span></span>
+  }
+
+  //return <span>Not Authed, Please Login</span>
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-
       <NavLink className="navbar-brand" to="/">Navbar</NavLink>
-
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
-
-      {!props.uid ?
-        <div className="collapse navbar-collapse" id="navbarNav">
+      <div className="collapse navbar-collapse" id="navbarNav">
+        {isEmpty(props.auth) ?
           <EnlacesLogout />
-        </div>
-        :
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <EnlacesLogin />
-          <EnlacesLoginAdministrador />
-        </div>
-      }
+          :
+          <span>
+            <EnlacesLogin />
+            <EnlacesLoginAdministrador />
+          </span>
+        }
 
+      </div>
     </nav>
   );
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.firebase.auth)
   return {
-    uid: state.firebase.auth.uid
+    uid: state.firebase.auth.uid,
+    auth: state.firebase.auth
   }
 }
 
