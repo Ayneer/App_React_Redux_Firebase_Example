@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-function Myperfil() {
+function Myperfil(props) {
+    console.log(props.auth)
     return (
         <div className="card container">
             <div className="card-body">
@@ -13,4 +15,10 @@ function Myperfil() {
     )
 }
 
-export default Myperfil;
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth
+    }
+}
+
+export default connect(mapStateToProps)(Myperfil);

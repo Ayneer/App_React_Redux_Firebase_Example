@@ -10,7 +10,7 @@ export class NuevoProyecto extends Component {
         correoCliente: ""
     }
 
-    onSubmit = (evento) =>{
+    onSubmit = (evento) => {
 
         evento.preventDefault();
 
@@ -22,19 +22,22 @@ export class NuevoProyecto extends Component {
         }
 
         nuevoProyecto(newProyecto);
-        console.log(this.props);
+        console.log("Termine onSubmit NuevoProyecto");
     }
 
-    onChange = (evento) =>{
+    onChange = (evento) => {
         const name = evento.target.name;
         this.setState({
-            [name] : evento.target.value
+            [name]: evento.target.value
         });
     }
 
     render() {
+        const {error} = this.props;
+        console.log(error);
         return (
-                <div className="card container">
+            <div className="card container">
+                {(error !== undefined && error !== false) ? <div>Error al crear nuevo Proyecto</div> : <div>Nuevo Proyecto guardado con exito!</div>}
                 <div className="card-body">
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
@@ -51,15 +54,17 @@ export class NuevoProyecto extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
+const mapDispatchToProps = (dispatch) => {
     return {
         nuevoProyecto: (proyecto) => dispatch(nuevoProyecto(proyecto))
     }
 }
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = (state) => {
+    console.log("mapStateToProps Nuevo proyecto");
     return {
-        usuario: state.autenticacion.correo
+        usuario: state.autenticacion.correo,
+        error: state.proyectos.error
     }
 }
 

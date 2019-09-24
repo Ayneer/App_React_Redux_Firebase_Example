@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {iniciarSesion} from '../Redux/Acciones/sesionAcciones';
 
 export class IniciarSesion extends Component {
     state = {
@@ -8,7 +10,7 @@ export class IniciarSesion extends Component {
 
     onSubmit = (evento) =>{
         evento.preventDefault();
-        console.log(this.state);
+        this.props.iniciarSesion(this.state);
     }
 
     onChange = (evento) =>{
@@ -21,6 +23,7 @@ export class IniciarSesion extends Component {
     render() {
         return (
             <div className="card container">
+                {!this.props.errorSesion ? null : <div>Error al iniciar sesion</div>}
                 <div className="card-body">
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
@@ -38,4 +41,18 @@ export class IniciarSesion extends Component {
     }
 }
 
-export default IniciarSesion
+const mapDispatchToProps = (dispatch) =>{
+
+    return{
+        iniciarSesion: (credenciales) => {dispatch(iniciarSesion(credenciales))}
+    }
+
+}
+
+const mapStateToProps = (state) =>{
+    return {
+        errorSesion: state.autenticacion.errorSesion
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(IniciarSesion);

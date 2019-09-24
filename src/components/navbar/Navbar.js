@@ -3,8 +3,11 @@ import { NavLink } from "react-router-dom";
 import EnlacesLogin from './EnlacesLogin';
 import EnlacesLogout from './EnlacesLogout';
 import EnlacesLoginAdministrador from './EnlacesLoginAdministrador';
+import { connect } from 'react-redux';
 
-function Navbar() {
+function Navbar(props) {
+  console.log("navbar");
+  console.log(props.uid)
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
 
@@ -14,14 +17,26 @@ function Navbar() {
         <span className="navbar-toggler-icon"></span>
       </button>
 
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <EnlacesLogin />
-        <EnlacesLoginAdministrador />
-        <EnlacesLogout />
-      </div>
+      {!props.uid ?
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <EnlacesLogout />
+        </div>
+        :
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <EnlacesLogin />
+          <EnlacesLoginAdministrador />
+        </div>
+      }
+
     </nav>
   );
 }
 
+const mapStateToProps = (state) => {
+  console.log(state.firebase.auth)
+  return {
+    uid: state.firebase.auth.uid
+  }
+}
 
-export default Navbar;
+export default connect(mapStateToProps)(Navbar);
