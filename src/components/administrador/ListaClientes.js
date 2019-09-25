@@ -12,7 +12,7 @@ class ListaClientes extends Component {
         if(!isLoaded(clientes)){
             return (<div>Cargando informacion de clientes...</div>);
         }
-
+        
         if (clientes.length > 0) {
             return (
                 clientes.map((cliente, index) =>
@@ -22,12 +22,14 @@ class ListaClientes extends Component {
                 )
             )
         }else{
+            console.log(clientes);
             return (<div>No hay clientes!</div>);
         }
     }
 }
 
 const mapStateToProps = (state) => {
+    console.log(state.firestore.ordered.clientes);
     return {
         clientes: state.firestore.ordered.clientes
     }
@@ -39,4 +41,4 @@ const mapDispatchToProps = (dispatch) =>{
     }
 }
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{collection: 'clientes'}])) (ListaClientes);
+export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{collection: 'clientes', orderBy: ['nombre', 'desc']}])) (ListaClientes);
