@@ -17,7 +17,7 @@ const clientesReducer = (state = iniState, action) => {
         case 'NUEVO_CLIENTE_ERROR':
             return {
                 ...state,
-                errorNuevoCliente: true
+                errorNuevoCliente: action.error.message
             }
 
         case 'ELIMINAR_CLIENTE':

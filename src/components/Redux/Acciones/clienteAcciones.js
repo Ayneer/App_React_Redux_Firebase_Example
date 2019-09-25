@@ -7,7 +7,8 @@ export const nuevoCliente = (cliente) => {
         firebase.auth().createUserWithEmailAndPassword(cliente.correo, cliente.contraseña).then((respuesta) => {
             return firestore.collection('clientes').doc(respuesta.user.uid).set({
                 correo: cliente.correo,
-                nombre: cliente.nombre
+                nombre: cliente.nombre,
+                tipo: cliente.tipo
             })
         }).then(() => {
             dispatch({ type: "NUEVO_CLIENTE", cliente });

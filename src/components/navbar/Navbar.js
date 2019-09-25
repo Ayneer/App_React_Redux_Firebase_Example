@@ -12,6 +12,10 @@ function Navbar(props) {
     return <span></span>
   }
 
+  if (!isLoaded(props.profile)) {
+    return <span></span>
+  }
+
   //return <span>Not Authed, Please Login</span>
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -23,10 +27,13 @@ function Navbar(props) {
         {isEmpty(props.auth) ?
           <EnlacesLogout />
           :
-          <span>
-            <EnlacesLogin />
+          props.profile.tipo === 1 ?
             <EnlacesLoginAdministrador />
-          </span>
+            :
+            props.profile.tipo === 2 ?
+              <EnlacesLogin />
+              :
+              null
         }
 
       </div>
@@ -37,7 +44,8 @@ function Navbar(props) {
 const mapStateToProps = (state) => {
   return {
     uid: state.firebase.auth.uid,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    profile: state.firebase.profile
   }
 }
 

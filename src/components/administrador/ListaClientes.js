@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import ClienteVista from './ClienteVista';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import { compose } from 'redux';
 import {eliminarCliente} from '../Redux/Acciones/clienteAcciones';
 
 class ListaClientes extends Component {
     render() {
         const { clientes } = this.props;
-        if (clientes && clientes.length > 0) {
+
+        if(!isLoaded(clientes)){
+            return (<div>Cargando informacion de clientes...</div>);
+        }
+
+        if (clientes.length > 0) {
             return (
                 clientes.map((cliente, index) =>
                     <div key={index}>
@@ -16,10 +21,8 @@ class ListaClientes extends Component {
                     </div>
                 )
             )
-        } else {
-            return (
-                <div> <h6>No hay clientes</h6> </div>
-            )
+        }else{
+            return (<div>No hay clientes!</div>);
         }
     }
 }

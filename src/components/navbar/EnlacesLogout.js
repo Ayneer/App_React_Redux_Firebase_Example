@@ -9,7 +9,7 @@ function EnlacesLogout() {
                     <NavLink className="nav-link" to="/registrarme">Registrarme</NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink className="nav-link" to="/">Iniciar Sesion</NavLink>
+                    <NavLink className="nav-link" to="/iniciarSesion">Iniciar Sesion</NavLink>
                 </li>
             </ul>
         </div>

@@ -8,13 +8,15 @@ export class Registrarse extends Component {
     state = {
         nombre: "",
         correo: "",
-        contraseña: ""
+        contraseña: "",
+        tipo: 2
     }
 
     onSubmit = (event) => {
         event.preventDefault();
         //console.log(this.state);
         this.props.nuevoCliente(this.state);
+        console.log("refres!");
     }
 
     onChange = (evento) => {
@@ -40,10 +42,9 @@ export class Registrarse extends Component {
 
         const { nombre, correo, contraseña } = this.state;
 
-        console.log(this.props.error);
-
         return (
             <div className="card container">
+                {this.props.error ? <div>{this.props.error}</div>:null}
                 <div className="card-body">
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">

@@ -15,14 +15,12 @@ function EnlacesLogin(props) {
                     <NavLink className="nav-link" to="/nuevoProyecto">Crear nuevo proyecto</NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink className="nav-link" onClick={props.cerrarSesion} to="/">Cerrar Sesion</NavLink>
+                    <NavLink className="nav-link" onClick={props.cerrarSesion} to="/salir">Cerrar Sesion</NavLink>
                 </li>   
             </ul>
         </div>
     )
 }
-
-
 
 const mapDispatchToProps = (dispatch) => {
 

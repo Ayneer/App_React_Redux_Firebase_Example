@@ -24,12 +24,12 @@ export class IniciarSesion extends Component {
 
     render() {
 
-        const { auth } = this.props;
+        const { auth, errorSesion } = this.props;
 
         if (isEmpty(auth)) {
             return (
                 <div className="card container">
-                    {!this.props.errorSesion ? null : <div>Error al iniciar sesion</div>}
+                    {!errorSesion ? null : <div>{errorSesion.message}</div>}
                     <div className="card-body">
                         <form onSubmit={this.onSubmit}>
                             <div className="form-group">

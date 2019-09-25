@@ -17,9 +17,10 @@ const autenticacionReducer = (state = iniState, action) => {
 
         case 'INICIAR_SESION_ERROR':
             console.log("fallo al iniciar sesion");
+            console.log(action.error);
             return {
                 ...state,
-                errorSesion: true
+                errorSesion: action.error
             }
 
         case 'CERRAR_SESION_ERROR':

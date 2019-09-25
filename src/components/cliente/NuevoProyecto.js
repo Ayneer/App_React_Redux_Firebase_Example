@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { nuevoProyecto } from '../Redux/Acciones/proyectoAcciones';
-import { compose } from 'redux';
-import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { isLoaded } from 'react-redux-firebase';
 
 export class NuevoProyecto extends Component {
 
@@ -16,13 +15,11 @@ export class NuevoProyecto extends Component {
 
         evento.preventDefault();
 
-        const { nuevoProyecto, clientes, id } = this.props;
-
-        const correoCliente = clientes[id].correo;
+        const { nuevoProyecto, profile} = this.props;
 
         const newProyecto = {
             ...this.state,
-            correoCliente
+            correoCliente: profile.correo
         }
 
         nuevoProyecto(newProyecto);
@@ -37,13 +34,12 @@ export class NuevoProyecto extends Component {
     }
 
     render() {
-        const { error, clientes, id } = this.props;
-        if (!isLoaded(clientes)) {
+        const { error, profile } = this.props;
+
+        if (!isLoaded(profile)) {
             return <span>Cargando...</span>
         }
-        if(!isLoaded(id)){
-            return <span>Cargando...</span>
-        }
+
         return (
             <div className="card container">
                 {error === null ? null : error ? <div>Error al crear nuevo Proyecto</div> : <div>Nuevo Proyecto guardado con exito!</div>}
@@ -70,13 +66,11 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-    console.log("mapStateToProps Nuevo proyecto");
     return {
         error: state.proyectos.error,
         auth: state.firebase.auth,
-        clientes: state.firestore.data.clientes,
-        id: state.firebase.auth.uid
+        profile: state.firebase.profile
     }
 }
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), firestoreConnect([{ collection: 'clientes' }]))(NuevoProyecto);
+export default connect(mapStateToProps, mapDispatchToProps)(NuevoProyecto);
